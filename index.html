@@ -104,14 +104,19 @@
 
         nightmare
             .goto('https://my.backpage.com/classifieds/central/index')
-            .type('#centralEmail', $('#bp_email').val())
-            .type('#centralPassword', $('#password').val())
+            .insert('#centralEmail', $('#bp_email').val())
+            .insert('#centralPassword', $('#password').val())
+            .wait(100)
             .click('.signIn')
-            /*.wait('#zero_click_wrapper .c-info__title a')
+            .wait('h1 a')
             .evaluate(function () {
-                return document.querySelector('#zero_click_wrapper .c-info__title a').href;
+                document.querySelector('h1 a').click()
             })
-            //.end()*/
+            .wait(100)
+            .evaluate(function () {
+                document.querySelector('#postAnAd a').click()
+            })
+            //.end()
             .then(function (result) {
                 console.log(result);
             })
