@@ -118,9 +118,15 @@
                 document.querySelector('h1 a').click()
             })
             .wait(100)
-            .evaluate(function () {
+            .evaluate(function (local, multiple) {
                 document.querySelector('#postAnAd a').click()
-            })
+                if(local && !multiple){
+                    document.querySelector('.mainBody ul li a').click()
+                }
+                if(!local && multiple){
+                    document.querySelector('.mainBody ul li a').click()
+                }
+            }, local, multiple)
             //.end()
             .then(function (result) {
                 console.log(result);
