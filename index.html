@@ -113,21 +113,26 @@
             .insert('#centralPassword', $('#password').val())
             .wait(100)
             .click('.signIn')
+            .wait(100)
             .wait('h1 a')
+            .wait(100)
             .evaluate(function () {
                 document.querySelector('h1 a').click()
             })
             .wait(100)
-            .evaluate(function (local, multiple) {
+            .evaluate(function () {
                 document.querySelector('#postAnAd a').click()
-                if(local && !multiple){
-                    document.querySelector('.mainBody ul li a').click()
+            })
+            //.end()
+            .wait(100)
+            .evaluate(function (local, multiple) {
+            if(local && !multiple){
+                    document.querySelector('.mainBody').click() 
                 }
                 if(!local && multiple){
-                    document.querySelector('.mainBody ul li a').click()
+                    document.querySelector('.mainBody').click()
                 }
             }, local, multiple)
-            //.end()
             .then(function (result) {
                 console.log(result);
             })
