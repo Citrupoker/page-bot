@@ -13,6 +13,10 @@
     <h1 class="text-center">Backpage Bot</h1>
     <form>
       <div class="form-group">
+      <input type="checkbox" name="adType" id="local" value="local" checked>Local ad<br>
+      <input type="checkbox" name="adType" id="multiple" value="multiple">Multiple cities<br>
+      </div>
+      <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" placeholder="Title" required>
       </div>
@@ -101,7 +105,8 @@
         console.log('Logging in to backpage...')
         var Nightmare = require('nightmare');
         var nightmare = Nightmare({ show: true });
-
+        var local = $('#local')[0].checked;
+        var multiple = $('#multiple')[0].checked;
         nightmare
             .goto('https://my.backpage.com/classifieds/central/index')
             .insert('#centralEmail', $('#bp_email').val())
