@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Backpage Bot</title>
+    <link rel="stylesheet" href="libs/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+  <div class="container">
+    <h1 class="text-center">Backpage Bot</h1>
+    <form>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" placeholder="Title" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="text" class="form-control" id="description" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="text" class="form-control" id="phone" placeholder="phone" required>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary form-control" type="button" onclick="saveData()">Save Ad</button><br/><br/>
+        <div class="form-group">
+          <label for="bp_email">Backpage Email</label>
+          <input type="email" class="form-control" id="bp_email" placeholder="Backpage Email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+        <button class="btn btn-warning form-control" type="button" onclick="startScrape()">Submit Saved Ads to Backpage</button>
+      </div>
+    </form>
+    <ul id="ads">
+
+    </ul>
+  </div>
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+
+  </script>
+  <script>window.$ = window.jQuery = require('./libs/jquery-3.2.1.min.js');</script>
+  <script src="libs/bootstrap.min.js"></script>
+  <script>
+
+     const flat = require('node-flat-db');
+     const storage = require('node-flat-db/file-async');
+
+     const db = flat('data/backpage.json', { storage });
+
+     const ads = db('ads').map('title');
+
+     for(var x= 0; x< db('ads').size(); x++){
+         $('#ads').append(`<li id="${ads[x]}">` + ads[x] + ` <button class="text-danger" id="delete" onclick="deleteAd(${ads[x]})">x</button></li>`)
+     }
+
+     function saveData(){
+         var title = $('#title').val()
+         var desc = $('#description').val()
+         var found = db('ads').find({title: title})
+         var email = $('#email').val()
+         var phone = $('#ephone').val()
+         if(!found && title != '' && desc != '' && phone != '' && email != '' ){
+             db('ads').push({
+                 title: title,
+                 description: desc,
+                 email: email,
+                 phone: phone
+             })
+                 .then(ad => $('#ads').append(`<li id="${title}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title})">x</button></li>`))
+
+             $('#title').val('')
+             $('#description').val('')
+             $('#email').val('')
+             $('#phone').val('')
+         }
+
+     }
+     function deleteAd(title){
+         console.log('deleted', title.id);
+         db('ads').remove({ title: title.id })
+         $('#' + title.id).remove();
+     }
+   </script>
+
+  <script>
+
+    function startScrape(){
+        console.log('Logging in to backpage...')
+        var Nightmare = require('nightmare');
+        var nightmare = Nightmare({ show: true });
+
+        nightmare
+            .goto('https://my.backpage.com/classifieds/central/index')
+            .type('#centralEmail', $('#bp_email').val())
+            .type('#centralPassword', $('#password').val())
+            .click('.signIn')
+            /*.wait('#zero_click_wrapper .c-info__title a')
+            .evaluate(function () {
+                return document.querySelector('#zero_click_wrapper .c-info__title a').href;
+            })
+            //.end()*/
+            .then(function (result) {
+                console.log(result);
+            })
+            .catch(function (error) {
+                console.error('Search failed:', error);
+            });
+    }
+  </script>
+  </body>
+</html>
