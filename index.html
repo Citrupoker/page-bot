@@ -110,23 +110,23 @@
         
             var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
         
-            nightmare.goto('https://my.backpage.com/classifieds/central/index')
-            .insert('#centralEmail', $('#bp_email').val())
-            .insert('#centralPassword', $('#password').val())
-            .wait(100)
-            .click('.signIn')
-            .wait(100)
-            .wait('h1 a')
-            .wait(100)
-            .click('h1 a')
-            .wait(100)
-            .click('#postAnAd a')
-            .wait(100)
-            .click(selectDestination)
-            .end()
-            .then(function(){
-                console.log("Action completed")
-            })
+        nightmare.goto('https://my.backpage.com/classifieds/central/index')
+        .insert('#centralEmail', $('#bp_email').val())
+        .insert('#centralPassword', $('#password').val())
+        .wait(100)
+        .click('.signIn')
+        .wait(100)
+        .wait('h1 a')
+        .click('h1 a')
+        .wait('#postAnAd a')
+        .click('#postAnAd a')
+        .wait(100)
+        .click(selectDestination)
+        .click('.countryHeader a')
+        //.end()
+        .then(function(){
+            console.log("Action completed")
+        })
             
             
         
