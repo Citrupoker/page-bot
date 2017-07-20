@@ -146,10 +146,12 @@
               .uncheck('#centralRemember')
               .click('.signIn')
               .wait('h1 a')
-              .then(function() {
+              .evaluate(function() {
+                return db('ads');
+              })
+              .then(function(ads) {
                 var run = function * () {
-                  var ads = db('ads');
-                  
+                
                   for (var i = 0; i < ads.length; i++) {
                     var localUrl = 'http://posting.' + ads[i].city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
                     ads[i].city +'.backpage.com/?section=' + postings[ads[i].category].section + '&category=' + 
