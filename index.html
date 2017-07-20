@@ -161,27 +161,19 @@
         .insert('input[name="regionOther"]', firstAd.location)
         .insert('input[name="email"]', firstAd.email)
         .insert('input[name="emailConfirm"]', firstAd.email)
-        .evaluate(() => {
-          var phoneInput = document.querySelector('input[name="contactPhone"]');
-          return phoneInput;
-        })
+        .exists('input[name="contactPhone"]')
         .then(function(phoneInput) {
             if (phoneInput) {
               return nightmare.insert('input[name="contactPhone"]', firstAd.phone)
-                .click('#acceptTermsBox')
-                .click('#submit_button')
-                //.end()
-                .then(function(){
-                    console.log("Action completed")
-                });
-            } else {
-              return nightmare.click('#acceptTermsBox')
-                .click('#submit_button')
-                //.end()
-                .then(function(){
-                    console.log("Action completed")
-                })
             }
+        })
+        .then(function() {
+          return nightmare.click('#acceptTermsBox')
+            .click('#submit_button')
+            //.end()
+            .then(function(){
+                console.log("Action completed")
+            })
         })
         
     }
