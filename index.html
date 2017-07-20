@@ -173,7 +173,7 @@
                     console.log(localUrl);
                     
                     return nightmare.goto(localUrl)
-                      .wait(200)
+                      .wait(400)
                       .wait('input[value="Continue"]')
                       .click('input[value="Continue"]')
                       .wait('.largeInput')
