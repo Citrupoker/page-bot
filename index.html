@@ -168,7 +168,7 @@
                   return accumulator.then(function(result) {
                     var localUrl = 'http://posting.' + city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
                     city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
-                    postings[ad.category].category + '&serverName=' + city + '.backpage.com&superRegion=' + city;
+                    postings[ad.category].category + '&serverName=' + city + '.backpage.com&superRegion=' + ad.city.split(' ').join('%20');
                     
                     console.log(localUrl);
                     
