@@ -146,6 +146,8 @@
         firstAd.city +'.backpage.com/?section=' + postings[firstAd.category].section + '&category=' + 
         postings[firstAd.category].category + '&serverName=' + firstAd.city + '.backpage.com&superRegion=' + firstAd.city;
         
+        console.log(localUrl);
+        
         nightmare.goto('https://my.backpage.com/classifieds/central/index')
         .insert('#centralEmail', $('#bp_email').val())
         .insert('#centralPassword', $('#password').val())
