@@ -168,7 +168,15 @@
         })
         .then(function(phoneInput) {
             if (phoneInput) {
-              return nightmare.insert('input[name="contactPhone"]', firstAd.phone);
+              return nightmare.insert('input[name="contactPhone"]', firstAd.phone)
+                .click('#acceptTermsBox')
+                .click('#submit_button')
+                .wait('.recaptcha-checkbox-checkmark')
+                .click('.recaptcha-checkbox-checkmark')
+                //.end()
+                .then(function(){
+                    console.log("Action completed")
+                });
             } else {
               return nightmare.click('#acceptTermsBox')
                 .click('#submit_button')
