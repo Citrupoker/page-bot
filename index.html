@@ -157,7 +157,7 @@
         .wait('h1 a')
         .goto(localUrl)
         .wait('.largeInput')
-        .insert('input[name="title"]', $('#title').val())
+        .insert('input[name="title"]', firstAd.title)
         //.end()
         .then(function(){
             console.log("Action completed")
