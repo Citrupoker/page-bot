@@ -132,7 +132,6 @@
     function startScrape(){
         console.log('Logging in to backpage...')
         var Nightmare = require('nightmare');
-        var vo = require('vo');
         var nightmare = Nightmare({ show: true });
         var local = $('#local')[0].checked;
         var multiple = $('#multiple')[0].checked;
@@ -145,12 +144,9 @@
               .wait(100)
               .uncheck('#centralRemember')
               .click('.signIn')
-              .wait('h1 a')
-              .evaluate(function() {
-                return db('ads');
-              })
-              .then(function(ads) {
-                console.log(ads);
+              .then(function() {
+                var ads = db('ads');
+                console.log(ads)
                 var run = function * () {
                 
                   for (var i = 0; i < ads.length; i++) {
