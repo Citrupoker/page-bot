@@ -146,17 +146,18 @@
               .click('.signIn')
               .then(function() {
                 var ads = db('ads');
-                console.log(ads)
-                var run = function * () {
+                console.log(ads);
                 
-                  for (var i = 0; i < ads.length; i++) {
-                    var localUrl = 'http://posting.' + ads[i].city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
-                    ads[i].city +'.backpage.com/?section=' + postings[ads[i].category].section + '&category=' + 
-                    postings[ads[i].category].category + '&serverName=' + ads[i].city + '.backpage.com&superRegion=' + ads[i].city;
+                ads.reduce(function(accumulator, ad) {
+                  
+                  return accumulator.then(function(result) {
+                    var localUrl = 'http://posting.' + ad.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
+                    ad.city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
+                    postings[ad.category].category + '&serverName=' + ad.city + '.backpage.com&superRegion=' + ad.city;
                     
                     console.log(localUrl);
                     
-                    yield nightmare.goto(localUrl)
+                    return nightmare.goto(localUrl)
                       .wait(200)
                       .wait('input[value="Continue"]')
                       .click('input[value="Continue"]')
@@ -177,16 +178,15 @@
                           .click('#submit_button')
                           //.end()
                           .then(function(){
-                              console.log("Action completed")
+                              console.log("Action completed");
+                              result ++;
                           })
                       })
-                  }
-                  return "Done";
-                }
-                
-                vo(run)(function(err, msg) {
-                  console.log(msg);
+                  });
+                }, Promise.resolve(0)).then(function(result){
+                    console.log(result);
                 });
+                
               });
         
     }
