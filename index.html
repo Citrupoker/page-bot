@@ -193,13 +193,12 @@
                               //.end()
                               .then(function(){
                                   console.log("Action completed");
-                                  result.push(localUrl);
                               })
                           })
                       })
                   });
-                }, Promise.resolve([])).then(function(result){
-                    console.log(result);
+                }, Promise.resolve('')).then(function(result){
+                    console.log("Done posting all ads");
                 });
                 
               });
