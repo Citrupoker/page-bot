@@ -118,10 +118,12 @@
    </script>
 
   <script>
-    var postings;
+    var postings = {};
     $.getJSON('postings.json', function(data) { 
       console.log(data);
-      postings=data;
+      for (var key in data) {
+        postings[key] = data[key];
+      }
     }); 
     
     console.log(postings);
