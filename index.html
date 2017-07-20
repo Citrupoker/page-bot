@@ -122,6 +122,8 @@
    </script>
 
   <script>
+    console.log(db('ads'));
+  
     categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=' + key + '>' + key + '</option>';
     }, '');
