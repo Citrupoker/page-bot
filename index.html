@@ -129,7 +129,7 @@
     $('#category').append(categoryOptions);
     
     var firstAd = db('ads').find({'title': 'dsaf'});
-    console.log(db('ads').find({'title': 'dsaf'}));
+    db('ads').forEach((ad) => console.log(ad))
 
     function startScrape(){
         console.log('Logging in to backpage...')
