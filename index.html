@@ -125,11 +125,11 @@
       }
     }); 
     
-    console.log(Object.getOwnPropertyNames(postings));
+    var categoryOptions = '';
     
-    var categoryOptions = Object.getOwnPropertyNames(postings).reduce((str, key) => {
-      return str + '<option value=1>' + key + '</option>';
-    });
+    for (var key in postings) {
+      categoryOptions += '<option value=1>' + key + '</option>';
+    }
     
     $('#category').append(categoryOptions);
 
