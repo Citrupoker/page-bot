@@ -162,15 +162,15 @@
                       .wait('input[value="Continue"]')
                       .click('input[value="Continue"]')
                       .wait('.largeInput')
-                      .insert('input[name="title"]', ads[i].title)
-                      .insert('textarea[name="ad"]', ads[i].description)
-                      .insert('input[name="regionOther"]', ads[i].location)
-                      .insert('input[name="email"]', ads[i].email)
-                      .insert('input[name="emailConfirm"]', ads[i].email)
+                      .insert('input[name="title"]', ad.title)
+                      .insert('textarea[name="ad"]', ad.description)
+                      .insert('input[name="regionOther"]', ad.location)
+                      .insert('input[name="email"]', ad.email)
+                      .insert('input[name="emailConfirm"]', ad.email)
                       .exists('input[name="contactPhone"]')
                       .then(function(phoneInput) {
                           if (phoneInput) {
-                            return nightmare.insert('input[name="contactPhone"]', ads[i].phone)
+                            return nightmare.insert('input[name="contactPhone"]', ad.phone)
                           }
                       })
                       .then(function() {
