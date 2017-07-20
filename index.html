@@ -156,6 +156,8 @@
         .click('.signIn')
         .wait('h1 a')
         .goto(localUrl)
+        .wait('.largeInput')
+        .insert('title', $('#title').val())
         //.end()
         .then(function(){
             console.log("Action completed")
