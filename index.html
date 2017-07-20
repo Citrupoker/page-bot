@@ -193,7 +193,7 @@
                               }
                           })
                           .then(function() {
-                            return nightmare.click('#acceptTermsBox')
+                            return nightmare.click('input[value="Continue"]')
                               .click('#submit_button')
                               //.end()
                               .then(function(){
