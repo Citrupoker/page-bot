@@ -469,7 +469,7 @@
         }
     }
     
-    categoryOptions = postings.reduce((str, key) => {
+    categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=' + key + '>' + key + '</option>';
     }, '');
     
