@@ -166,9 +166,9 @@
                   var city = ad.city.split(' ').join('');
                   
                   return accumulator.then(function(result) {
-                    var localUrl = 'http://posting.' + ad.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
-                    ad.city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
-                    postings[ad.category].category + '&serverName=' + ad.city + '.backpage.com&superRegion=' + ad.city;
+                    var localUrl = 'http://posting.' + city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
+                    city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
+                    postings[ad.category].category + '&serverName=' + city + '.backpage.com&superRegion=' + city;
                     
                     console.log(localUrl);
                     
