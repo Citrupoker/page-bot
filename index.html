@@ -13,10 +13,6 @@
     <h1 class="text-center">Backpage Bot</h1>
     <form>
       <div class="form-group">
-      <input type="radio" name="adType" id="local" value="local" checked>Local ad<br>
-      <input type="radio" name="adType" id="multiple" value="multiple">Multiple cities<br>
-      </div>
-      <div class="form-group">
         <label for="category">Category</label>
         <select class="form-control" id="category" required>
         </select>
@@ -146,11 +142,7 @@
         console.log('Logging in to backpage...')
         var Nightmare = require('nightmare');
         var nightmare = Nightmare({ show: true });
-        var local = $('#local')[0].checked;
-        var multiple = $('#multiple')[0].checked;
-        
-        var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
-        
+
         nightmare.goto('https://my.backpage.com/classifieds/central/index')
               .insert('#centralEmail', $('#bp_email').val())
               .insert('#centralPassword', $('#password').val())
@@ -173,7 +165,6 @@
                     console.log(localUrl);
                     
                     return nightmare.goto(localUrl)
-                      .wait(400)
                       .wait('input[value="Continue"]')
                       .click('input[value="Continue"]')
                       .wait('.largeInput')
