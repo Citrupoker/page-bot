@@ -84,7 +84,7 @@
      }
 
      function saveData(){
-         var category = $('#category').val().split('&nbsp;').join(' ')
+         var category = $('#category').val()
          var title = $('#title').val()
          var desc = $('#description').val()
          var found = db('ads').find({title: title})
@@ -123,7 +123,7 @@
 
   <script>
     categoryOptions = Object.keys(postings).reduce((str, key) => {
-      return str + '<option value=' + key.split(' ').join('&nbsp;') + '>' + key + '</option>';
+      return str + '<option value=' + key + '>' + key.original + '</option>';
     }, '');
     
     $('#category').append(categoryOptions);
@@ -140,7 +140,7 @@
         
         var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
         
-        console.log(postings);
+        console.log(postings[firstAd.category]);
         
         var localUrl = 'http://posting.' + firstAd.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
         firstAd.city +'.backpage.com/?section=' + postings[firstAd.category].section + '&category=' + 
