@@ -46,6 +46,10 @@
         <input type="text" class="form-control" id="phone" placeholder="phone" required>
       </div>
       <div class="form-group">
+        <label for="age">Age</label>
+        <input type="text" class="form-control" id="age" placeholder="Age">
+      </div>
+      <div class="form-group">
         <button class="btn btn-primary form-control" type="button" onclick="saveData()">Save Ad</button><br/><br/>
         <div class="form-group">
           <label for="bp_email">Backpage Email</label>
@@ -92,6 +96,7 @@
          var city = $('#city').val()
          var email = $('#email').val()
          var phone = $('#phone').val()
+         var age = $('#age').val()
          if(!found && category !== '' && title != '' && desc != '' && phone != '' && email != '' && location != '' && city != ''){
              db('ads').push({
                  category: category,
@@ -100,7 +105,8 @@
                  email: email,
                  phone: phone,
                  location: location,
-                 city: city
+                 city: city,
+                 age: age
              })
                  .then(ad => $('#ads').append(`<li id="${title.split(' ').join('_')}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title.split(' ').join('_')})">x</button></li>`))
              
@@ -111,6 +117,7 @@
              $('#location').val('')
              $('#email').val('')
              $('#phone').val('')
+             $('#age').val('')
          }
 
      }
@@ -167,19 +174,27 @@
                       .insert('input[name="regionOther"]', ad.location)
                       .insert('input[name="email"]', ad.email)
                       .insert('input[name="emailConfirm"]', ad.email)
-                      .exists('input[name="contactPhone"]')
-                      .then(function(phoneInput) {
-                          if (phoneInput) {
-                            return nightmare.insert('input[name="contactPhone"]', ad.phone)
-                          }
+                      .exists('input[name="age"]')
+                      .then(function(ageInput) {
+                        if (ageInput) {
+                          return nightmare.insert('input[name="age"]', ad.age || 20);
+                        }
                       })
                       .then(function() {
-                        return nightmare.click('#acceptTermsBox')
-                          .click('#submit_button')
-                          //.end()
-                          .then(function(){
-                              console.log("Action completed");
-                              result ++;
+                        return nightmare.exists('input[name="contactPhone"]')
+                          .then(function(phoneInput) {
+                              if (phoneInput) {
+                                return nightmare.insert('input[name="contactPhone"]', ad.phone);
+                              }
+                          })
+                          .then(function() {
+                            return nightmare.click('#acceptTermsBox')
+                              .click('#submit_button')
+                              //.end()
+                              .then(function(){
+                                  console.log("Action completed");
+                                  result ++;
+                              })
                           })
                       })
                   });
