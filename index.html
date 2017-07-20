@@ -120,13 +120,12 @@
   <script>
     var postings = {};
     $.getJSON('postings.json', function(data) { 
-      console.log(data);
       for (var key in data) {
         postings[key] = data[key];
       }
     }); 
     
-    console.log(postings);
+    console.log(Object.keys(postings));
     
     var categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=1>' + key + '</option>';
