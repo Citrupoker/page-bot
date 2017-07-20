@@ -17,6 +17,11 @@
       <input type="radio" name="adType" id="multiple" value="multiple">Multiple cities<br>
       </div>
       <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" id="category" required>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" placeholder="Title" required>
       </div>
@@ -24,7 +29,14 @@
         <label for="description">Description</label>
         <textarea type="text" class="form-control" id="description" required></textarea>
       </div>
-
+      <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" placeholder="City" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Location/Address</label>
+        <input type="text" class="form-control" id="location" placeholder="Location" required>
+      </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email" required>
@@ -74,19 +86,25 @@
          var title = $('#title').val()
          var desc = $('#description').val()
          var found = db('ads').find({title: title})
+         var location = $('#location').val()
+         var city = $('#city').val()
          var email = $('#email').val()
          var phone = $('#ephone').val()
-         if(!found && title != '' && desc != '' && phone != '' && email != '' ){
+         if(!found && title != '' && desc != '' && phone != '' && email != '' && location != '' && city != ''){
              db('ads').push({
                  title: title,
                  description: desc,
                  email: email,
-                 phone: phone
+                 phone: phone,
+                 location: location,
+                 city: city
              })
                  .then(ad => $('#ads').append(`<li id="${title}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title})">x</button></li>`))
 
              $('#title').val('')
              $('#description').val('')
+             $('#city').val('')
+             $('#location').val('')
              $('#email').val('')
              $('#phone').val('')
          }
@@ -100,6 +118,16 @@
    </script>
 
   <script>
+    var postings={};
+    $.getJSON('postings.json', function(data) { 
+      postings=data;
+    }); 
+    
+    var categoryOptions = Object.keys(postings).reduce((str, key) => {
+      return str + '<option value=1>' + key + '</option>';
+    });
+    
+    $('#category').append(categoryOptions);
 
     function startScrape(){
         console.log('Logging in to backpage...')
@@ -108,7 +136,9 @@
         var local = $('#local')[0].checked;
         var multiple = $('#multiple')[0].checked;
         
-            var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
+        var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
+        
+        var localUrl = 'http://posting.anchorage.backpage.com/online/classifieds/PostAdPPI.html/posting.anchorage.backpage.com/?section=4380&category=4438&serverName=anchorage.backpage.com&superRegion=Anchorage'
         
         nightmare.goto('https://my.backpage.com/classifieds/central/index')
         .insert('#centralEmail', $('#bp_email').val())
@@ -134,3 +164,4 @@
   </script>
   </body>
 </html>
+
