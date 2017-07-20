@@ -83,6 +83,7 @@
      }
 
      function saveData(){
+         var category = $('#category').val()
          var title = $('#title').val()
          var desc = $('#description').val()
          var found = db('ads').find({title: title})
@@ -90,8 +91,9 @@
          var city = $('#city').val()
          var email = $('#email').val()
          var phone = $('#ephone').val()
-         if(!found && title != '' && desc != '' && phone != '' && email != '' && location != '' && city != ''){
+         if(!found && category !== '' && title != '' && desc != '' && phone != '' && email != '' && location != '' && city != ''){
              db('ads').push({
+                 category: category,
                  title: title,
                  description: desc,
                  email: email,
@@ -100,7 +102,8 @@
                  city: city
              })
                  .then(ad => $('#ads').append(`<li id="${title}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title})">x</button></li>`))
-
+             
+             $('#category').val()
              $('#title').val('')
              $('#description').val('')
              $('#city').val('')
@@ -472,9 +475,6 @@
     categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=' + key + '>' + key + '</option>';
     }, '');
-    
-    console.log(postings);
-    console.log(categoryOptions);
     
     $('#category').append(categoryOptions);
 
