@@ -348,5 +348,3 @@ var postings = {
             "section": "4374"
         }
 }
-
-console.log(postings['adult jobs'])
