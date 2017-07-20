@@ -84,7 +84,7 @@
      }
 
      function saveData(){
-         var category = $('#category').val()
+         var category = $('#category').val().split('&nbsp;').join(' ')
          var title = $('#title').val()
          var desc = $('#description').val()
          var found = db('ads').find({title: title})
@@ -123,7 +123,7 @@
 
   <script>
     categoryOptions = Object.keys(postings).reduce((str, key) => {
-      return str + '<option value=' + key + '>' + key + '</option>';
+      return str + '<option value=' + key.split(' ').join('&nbsp;') + '>' + key + '</option>';
     }, '');
     
     $('#category').append(categoryOptions);
