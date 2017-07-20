@@ -115,8 +115,9 @@
 
      }
      function deleteAd(title){
-         console.log('deleted', title.id);
-         db('ads').remove({ title: title.id })
+         var id = title.id.split('_').join(' ');
+         console.log('deleted', id);
+         db('ads').remove({ title: id })
          $('#' + title.id).remove();
      }
    </script>
