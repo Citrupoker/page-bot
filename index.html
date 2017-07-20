@@ -80,7 +80,7 @@
      const ads = db('ads').map('title');
 
      for(var x= 0; x< db('ads').size(); x++){
-         $('#ads').append(`<li id="${ads[x]}">` + ads[x] + ` <button class="text-danger" id="delete" onclick="deleteAd(${ads[x]})">x</button></li>`)
+         $('#ads').append(`<li id="${title.split(' ').join('_')}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title.split(' ').join('_')})">x</button></li>`)
      }
 
      function saveData(){
@@ -102,7 +102,7 @@
                  location: location,
                  city: city
              })
-                 .then(ad => $('#ads').append(`<li id="${title}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title})">x</button></li>`))
+                 .then(ad => $('#ads').append(`<li id="${title.split(' ').join('_')}">` + title + ` <button class="text-danger" id="delete" onclick="deleteAd(${title.split(' ').join('_')})">x</button></li>`))
              
              $('#category').val()
              $('#title').val('')
@@ -140,8 +140,6 @@
         
         var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
         
-        console.log(postings[firstAd.category]);
-        
         var localUrl = 'http://posting.' + firstAd.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
         firstAd.city +'.backpage.com/?section=' + postings[firstAd.category].section + '&category=' + 
         postings[firstAd.category].category + '&serverName=' + firstAd.city + '.backpage.com&superRegion=' + firstAd.city;
@@ -171,8 +169,6 @@
               return nightmare.insert('input[name="contactPhone"]', firstAd.phone)
                 .click('#acceptTermsBox')
                 .click('#submit_button')
-                .wait('.recaptcha-checkbox-checkmark')
-                .click('.recaptcha-checkbox-checkmark')
                 //.end()
                 .then(function(){
                     console.log("Action completed")
@@ -180,8 +176,6 @@
             } else {
               return nightmare.click('#acceptTermsBox')
                 .click('#submit_button')
-                .wait('.recaptcha-checkbox-checkmark')
-                .click('.recaptcha-checkbox-checkmark')
                 //.end()
                 .then(function(){
                     console.log("Action completed")
