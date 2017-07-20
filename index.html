@@ -163,6 +163,8 @@
                 
                 ads.reduce(function(accumulator, ad) {
                   
+                  var city = ad.city.split(' ').join('');
+                  
                   return accumulator.then(function(result) {
                     var localUrl = 'http://posting.' + ad.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
                     ad.city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
