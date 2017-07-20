@@ -118,14 +118,7 @@
    </script>
 
   <script>
-    var postings = {};
-    $.getJSON('postings.json', function(data) { 
-      for (var key in data) {
-        postings[key] = data[key];
-      }
-    }); 
-    
-    var categoryOptions = '';
+    var postings = require('postings.js');
     
     for (var key in postings) {
       console.log('loop');

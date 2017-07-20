@@ -1,4 +1,4 @@
-{
+module.exports = {
       "adult jobs": {
           "category": "4389",
           "section": "4381"
