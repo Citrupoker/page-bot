@@ -123,6 +123,8 @@
       postings=data;
     }); 
     
+    console.log(postings);
+    
     var categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=1>' + key + '</option>';
     });
