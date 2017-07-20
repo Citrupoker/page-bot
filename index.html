@@ -122,13 +122,14 @@
    </script>
 
   <script>
-    console.log(db('ads').find({}));
-  
     categoryOptions = Object.keys(postings).reduce((str, key) => {
       return str + '<option value=' + key + '>' + key + '</option>';
     }, '');
     
     $('#category').append(categoryOptions);
+    
+    var firstAd = db('ads').find({});
+    console.log(db('ads').find({}));
 
     function startScrape(){
         console.log('Logging in to backpage...')
@@ -139,7 +140,9 @@
         
         var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
         
-        var localUrl = 'http://posting.anchorage.backpage.com/online/classifieds/PostAdPPI.html/posting.anchorage.backpage.com/?section=4380&category=4438&serverName=anchorage.backpage.com&superRegion=Anchorage'
+        var localUrl = 'http://posting.' + firstAd.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
+        firstAd.city +'.backpage.com/?section=' + postings[firstAd.category].section + '&category=' + 
+        postings[firstAd.category].category + '&serverName=' + firstAd.city + '.backpage.com&superRegion=' + firstAd.city;
         
         nightmare.goto('https://my.backpage.com/classifieds/central/index')
         .insert('#centralEmail', $('#bp_email').val())
@@ -148,12 +151,7 @@
         .uncheck('#centralRemember')
         .click('.signIn')
         .wait('h1 a')
-        .click('h1 a')
-        .wait('#postAnAd a')
-        .click('#postAnAd a')
-        .wait(selectDestination)
-        .click(selectDestination)
-        .click('.countryHeader a')
+        .goto(localUrl)
         //.end()
         .then(function(){
             console.log("Action completed")
