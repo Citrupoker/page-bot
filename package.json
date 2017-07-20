@@ -20,6 +20,8 @@
     "electron": "~1.6.2"
   },
   "dependencies": {
+    "antigate": "0.0.1",
+    "dotenv": "^4.0.0",
     "nightmare": "2.7.0",
     "node-flat-db": "^0.2.1",
     "vo": "^4.0.2"
