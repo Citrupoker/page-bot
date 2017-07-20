@@ -128,56 +128,66 @@
     }, '');
     
     $('#category').append(categoryOptions);
-    
-    var firstAd = db('ads').find({'title': 'dsaf'});
-    db('ads').forEach((ad) => console.log(ad))
 
     function startScrape(){
         console.log('Logging in to backpage...')
         var Nightmare = require('nightmare');
+        var vo = require('vo');
         var nightmare = Nightmare({ show: true });
         var local = $('#local')[0].checked;
         var multiple = $('#multiple')[0].checked;
         
         var selectDestination = local ? '.mainBody ul li:nth-child(1) a' : '.mainBody ul li:nth-child(2) a' // local should be true or false based on radio button
         
-        var localUrl = 'http://posting.' + firstAd.city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
-        firstAd.city +'.backpage.com/?section=' + postings[firstAd.category].section + '&category=' + 
-        postings[firstAd.category].category + '&serverName=' + firstAd.city + '.backpage.com&superRegion=' + firstAd.city;
+        var run = function * () {
+          var ads = db('ads');
+          
+          yield nightmare.goto('https://my.backpage.com/classifieds/central/index')
+              .insert('#centralEmail', $('#bp_email').val())
+              .insert('#centralPassword', $('#password').val())
+              .wait(100)
+              .uncheck('#centralRemember')
+              .click('.signIn')
+              .wait('h1 a')
+          
+          for (var i = 0; i < ads.length; i++) {
+            var localUrl = 'http://posting.' + ads[i].city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
+            ads[i].city +'.backpage.com/?section=' + postings[ads[i].category].section + '&category=' + 
+            postings[ads[i].category].category + '&serverName=' + ads[i].city + '.backpage.com&superRegion=' + ads[i].city;
+            
+            console.log(localUrl);
+            
+            yield nightmare.goto(localUrl)
+              .wait(200)
+              .wait('input[value="Continue"]')
+              .click('input[value="Continue"]')
+              .wait('.largeInput')
+              .insert('input[name="title"]', ads[i].title)
+              .insert('textarea[name="ad"]', ads[i].description)
+              .insert('input[name="regionOther"]', ads[i].location)
+              .insert('input[name="email"]', ads[i].email)
+              .insert('input[name="emailConfirm"]', ads[i].email)
+              .exists('input[name="contactPhone"]')
+              .then(function(phoneInput) {
+                  if (phoneInput) {
+                    return nightmare.insert('input[name="contactPhone"]', ads[i].phone)
+                  }
+              })
+              .then(function() {
+                return nightmare.click('#acceptTermsBox')
+                  .click('#submit_button')
+                  //.end()
+                  .then(function(){
+                      console.log("Action completed")
+                  })
+              })
+          }
+          return "Done";
+        }
         
-        console.log(localUrl);
-        
-        nightmare.goto('https://my.backpage.com/classifieds/central/index')
-        .insert('#centralEmail', $('#bp_email').val())
-        .insert('#centralPassword', $('#password').val())
-        .wait(100)
-        .uncheck('#centralRemember')
-        .click('.signIn')
-        .wait('h1 a')
-        .goto(localUrl)
-        .wait(200)
-        .wait('input[value="Continue"]')
-        .click('input[value="Continue"]')
-        .wait('.largeInput')
-        .insert('input[name="title"]', firstAd.title)
-        .insert('textarea[name="ad"]', firstAd.description)
-        .insert('input[name="regionOther"]', firstAd.location)
-        .insert('input[name="email"]', firstAd.email)
-        .insert('input[name="emailConfirm"]', firstAd.email)
-        .exists('input[name="contactPhone"]')
-        .then(function(phoneInput) {
-            if (phoneInput) {
-              return nightmare.insert('input[name="contactPhone"]', firstAd.phone)
-            }
-        })
-        .then(function() {
-          return nightmare.click('#acceptTermsBox')
-            .click('#submit_button')
-            //.end()
-            .then(function(){
-                console.log("Action completed")
-            })
-        })
+        vo(run)(function(err, msg) {
+          console.log(msg);
+        });
         
     }
   </script>
