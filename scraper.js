@@ -35,31 +35,39 @@ function startScrape(){
                 console.log(localUrl);
                 
                 return nightmare.goto(localUrl)
-                  .wait('input[name="title"]')
-                  .insert('input[name="title"]', ad.title)
-                  .insert('textarea[name="ad"]', ad.description)
-                  .insert('input[name="regionOther"]', ad.location)
-                  .insert('input[name="email"]', ad.email)
-                  .insert('input[name="emailConfirm"]', ad.email)
-                  .exists('input[name="age"]')
-                  .then(function(ageInput) {
-                    if (ageInput) {
-                      return nightmare.insert('input[name="age"]', ad.age || 20);
+                  .exists('input[name="title"]')
+                  .then(function(titleInput) {
+                    if (!titleInput) {
+                      return nightmare.click('input[value="Continue"]');
                     }
                   })
                   .then(function() {
-                    return nightmare.exists('input[name="contactPhone"]')
-                      .then(function(phoneInput) {
-                          if (phoneInput) {
-                            return nightmare.insert('input[name="contactPhone"]', ad.phone);
-                          }
+                    return nightmare.wait('input[name="title"]')
+                      .insert('input[name="title"]', ad.title)
+                      .insert('textarea[name="ad"]', ad.description)
+                      .insert('input[name="regionOther"]', ad.location)
+                      .insert('input[name="email"]', ad.email)
+                      .insert('input[name="emailConfirm"]', ad.email)
+                      .exists('input[name="age"]')
+                      .then(function(ageInput) {
+                        if (ageInput) {
+                          return nightmare.insert('input[name="age"]', ad.age || 20);
+                        }
                       })
                       .then(function() {
-                        return nightmare.click('input[name="acceptTerms"]')
-                          .click('#submit_button')
-                          //.end()
-                          .then(function(){
-                              console.log("Action completed");
+                        return nightmare.exists('input[name="contactPhone"]')
+                          .then(function(phoneInput) {
+                              if (phoneInput) {
+                                return nightmare.insert('input[name="contactPhone"]', ad.phone);
+                              }
+                          })
+                          .then(function() {
+                            return nightmare.click('input[name="acceptTerms"]')
+                              .click('#submit_button')
+                              //.end()
+                              .then(function(){
+                                  console.log("Action completed");
+                              })
                           })
                       })
                   })
