@@ -64,6 +64,7 @@ function startScrape(){
                           .then(function() {
                             return nightmare.click('input[name="acceptTerms"]')
                               .click('#submit_button')
+                              .wait(200)
                               //.end()
                               .then(function(){
                                   console.log("Action completed");
