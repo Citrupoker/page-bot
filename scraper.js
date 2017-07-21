@@ -35,8 +35,6 @@ function startScrape(){
                 console.log(localUrl);
                 
                 return nightmare.goto(localUrl)
-                  .wait('input[value="Continue"]')
-                  .click('input[value="Continue"]')
                   .wait('input[name="title"]')
                   .insert('input[name="title"]', ad.title)
                   .insert('textarea[name="ad"]', ad.description)
