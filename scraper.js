@@ -15,7 +15,7 @@ var cityOptions = cities.sort().reduce((str, key) => {
 $('#category').append(categoryOptions);
 $('#city').append(cityOptions);
 
-function * startScrape(){
+function startScrape(){
     
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
@@ -90,12 +90,15 @@ function * startScrape(){
                               .then(function(obj){
                                   // Call the anticaptchaFunc function to get the solution and insert it in
                                   // g-captcha-response textarea, and finally submit
-                                  return anticaptchaFunc(obj.url, obj.key, function(solution) {
+                                  setTimeout(function(){
+                                    return anticaptchaFunc(obj.url, obj.key, function(solution) {
                                     console.log('captcha solution: ' + solution);
                                     return nightmare.insert('#g-recaptcha-response', solution)
                                       .click('#submit_button')
                                       .wait(200);
                                   });
+                                  }, 30000)
+                                  
                               })
                           })
                       })
