@@ -27,6 +27,7 @@ function startScrape(){
           .then(function() {
             
             var run = function * () {
+              console.log(db('ads').length);
               for (var i = 0; i < db('ads').length; i++) {
                 var ad = db('ads')[i];
                 console.log(ad);
