@@ -84,12 +84,11 @@ function startScrape(){
                                 return {url, key};
                                })
                               .then(function(obj){
-                                  return anticaptchaFunc(obj.url, obj.key).done(solution => solution);
+                                  return anticaptchaFunc(obj.url, obj.key, function(solution) {
+                                    console.log("The solution: " + solution);
+                                    console.log("Action completed");
+                                  });
                               })
-                              .then((solution) => {
-                                console.log("The solution: " + solution);
-                                console.log("Action completed");
-                              });
                           })
                       })
                   })
@@ -101,7 +100,7 @@ function startScrape(){
     
 }
 
-function anticaptchaFunc(url, key) {
+function anticaptchaFunc(url, key, callback) {
   var solution = '';
   
   anticaptcha.setWebsiteURL(url);
@@ -130,10 +129,9 @@ function anticaptchaFunc(url, key) {
                   }
   
                   console.log('this is solution: ' + taskSolution);
-                  solution = taskSolution;
+                  callback(taskSolution);
               });
           });
       }
   });
-  return solution;
 }
