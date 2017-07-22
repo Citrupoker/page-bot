@@ -86,7 +86,8 @@ function startScrape(){
                               .then(function(obj){
                                   return anticaptchaFunc(obj.url, obj.key);
                               })
-                              .then(() => {
+                              .then((solution) => {
+                                console.log("The solution: " + solution);
                                 console.log("Action completed");
                               });
                           })
@@ -101,6 +102,8 @@ function startScrape(){
 }
 
 function anticaptchaFunc(url, key) {
+  var solution;
+  
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
   anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
@@ -127,9 +130,10 @@ function anticaptchaFunc(url, key) {
                   }
   
                   console.log('this is solution: ' + taskSolution);
-                  return taskSolution;
+                  solution = taskSolution;
               });
           });
       }
   });
+  return solution;
 }
