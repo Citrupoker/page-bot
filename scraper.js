@@ -100,7 +100,7 @@ function startScrape(){
               return "All done";
             }
             
-            vo(run)(function(err, msg) {
+            return vo(run)(function(err, msg) {
               if (err) console.log(err);
               console.log(msg);
             });
