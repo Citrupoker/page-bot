@@ -1,9 +1,5 @@
 var anticaptcha = require('./anticaptcha/config.js');
 console.log(anticaptcha);
-console.log('Logging in to backpage...')
-var Nightmare = require('nightmare');
-var nightmare = Nightmare({ show: true });
-var vo = require('vo');
 
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
@@ -16,7 +12,10 @@ $('#category').append(categoryOptions);
 $('#city').append(cityOptions);
 
 function startScrape(){
-    
+    console.log('Logging in to backpage...')
+    var Nightmare = require('nightmare');
+    var nightmare = Nightmare({ show: true });
+    var vo = require('vo');
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
           // Log in to Backpage
@@ -41,7 +40,8 @@ function startScrape(){
                 console.log(localUrl);
                 
                 // Go to the url for every job post
-                yield nightmare.wait(30000).goto(localUrl)
+                yield nightmare.wait(30000)
+                  .goto(localUrl)
                   // If there is no title input, the page is asking for age confirmation, so click Continue
                   .exists('input[name="title"]')
                   .then(function(titleInput) {
@@ -90,15 +90,11 @@ function startScrape(){
                               .then(function(obj){
                                   // Call the anticaptchaFunc function to get the solution and insert it in
                                   // g-captcha-response textarea, and finally submit
-                                  setTimeout(function(){
-                                    return anticaptchaFunc(obj.url, obj.key, function(solution) {
+                                  return anticaptchaFunc(obj.url, obj.key, function(solution) {
                                     console.log('captcha solution: ' + solution);
                                     return nightmare.insert('#g-recaptcha-response', solution)
-                                      .click('#submit_button')
-                                      .wait(200);
+                                      .click('#submit_button');
                                   });
-                                  }, 30000)
-                                  
                               })
                           })
                       })
