@@ -78,17 +78,11 @@ function startScrape(){
                               }).click('input[name="acceptTerms"]')
                               .click('#submit_button')
                               .wait('.g-recaptcha')
-                              .evaluate((anticaptcha) => {
-                                console.log(anticaptcha);
+                              .evaluate((anticaptchaFunc) => {
                                 var url = document.URL;
-                                console.log(url);
                                 var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
-                                console.log(key);
-                                
-                                anticaptcha.setWebsiteURL(url);
-                                anticaptcha.setWebsiteKey("6LfZsQMTAAAAAMNekgRgcuRVRMiPYCh8plUMHh-m");
-                                anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
-                              }, anticaptcha)
+                                console.log(anticaptchaFunc(url, key));
+                               }, anticaptchaFunc)
                               //.end()
                               .then(function(){
                                   console.log("Action completed");
@@ -103,4 +97,11 @@ function startScrape(){
             
           });
     
+}
+
+function anticaptchaFunc(url, key) {
+  anticaptcha.setWebsiteURL(url);
+  anticaptcha.setWebsiteKey(key);
+  anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
+  return anticaptcha;
 }
