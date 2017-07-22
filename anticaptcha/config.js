@@ -1,2 +1,2 @@
 require('dotenv').config();
-module.exports = process.env.ANTIGATE_KEY;
+module.exports = require('./anticaptcha')(process.env.ANTIGATE_KEY);
