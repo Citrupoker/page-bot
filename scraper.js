@@ -1,6 +1,5 @@
-var antigate_key = require('./config.js');
-console.log(antigate_key);
-console.log('yo');
+var anticaptcha = require('./anticaptcha/config.js');
+console.log(anticaptcha);
 
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
