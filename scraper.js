@@ -84,11 +84,12 @@ function startScrape(){
                                 return {url, key};
                                })
                               .then(function(obj){
-                                  return anticaptchaFunc(obj.url, obj.key, function(solution) {
-                                    console.log("The solution: " + solution);
-                                    return nightmare.goto(solution);
-                                  });
+                                  return anticaptchaFunc(obj.url, obj.key);
                               })
+                              .then((solution) => {
+                                console.log("The solution: " + solution);
+                                console.log("Action completed");
+                              });
                           })
                       })
                   })
@@ -100,7 +101,9 @@ function startScrape(){
     
 }
 
-function anticaptchaFunc(url, key, callback) {
+function anticaptchaFunc(url, key) {
+  var solution = '';
+  
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
   anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
@@ -115,6 +118,7 @@ function anticaptchaFunc(url, key, callback) {
           anticaptcha.createTaskProxyless(function (err, taskId) {
               if (err) {
                   console.error(err);
+                  return;
               }
   
               console.log(taskId);
@@ -122,10 +126,11 @@ function anticaptchaFunc(url, key, callback) {
               anticaptcha.getTaskSolution(taskId, function (err, taskSolution) {
                   if (err) {
                       console.error(err);
+                      return;
                   }
   
                   console.log('this is solution: ' + taskSolution);
-                  callback(taskSolution);
+                  return taskSolution;
               });
           });
       }
