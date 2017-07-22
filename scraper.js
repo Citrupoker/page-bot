@@ -96,7 +96,6 @@ function startScrape(){
             }, Promise.resolve('')).then(function(result){
                 console.log("Done posting all ads");
             });
-            
           });
     
 }
@@ -105,6 +104,32 @@ function anticaptchaFunc(url, key) {
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
   anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
-  console.log(anticaptcha);
-  return anticaptcha;
+  
+  anticaptcha.getBalance(function (err, balance) {
+      if (err) {
+          console.error(err);
+          return;
+      }
+  
+      if (balance > 0) {
+          anticaptcha.createTaskProxyless(function (err, taskId) {
+              if (err) {
+                  console.error(err);
+                  return;
+              }
+  
+              console.log(taskId);
+  
+              anticaptcha.getTaskSolution(taskId, function (err, taskSolution) {
+                  if (err) {
+                      console.error(err);
+                      return;
+                  }
+  
+                  console.log('this is solution: ' + taskSolution);
+                  return taskSolution;
+              });
+          });
+      }
+  });
 }
