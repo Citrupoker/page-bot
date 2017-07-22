@@ -15,6 +15,8 @@ function startScrape(){
     console.log('Logging in to backpage...')
     var Nightmare = require('nightmare');
     var nightmare = Nightmare({ show: true });
+    var vo = require('vo');
+    console.log(vo);
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
           // Log in to Backpage
@@ -109,12 +111,14 @@ function anticaptchaFunc(url, key) {
   anticaptcha.getBalance(function (err, balance) {
       if (err) {
           console.error(err);
+          return;
       }
   
       if (balance > 0) {
           anticaptcha.createTaskProxyless(function (err, taskId) {
               if (err) {
                   console.error(err);
+                  return;
               }
   
               console.log(taskId);
