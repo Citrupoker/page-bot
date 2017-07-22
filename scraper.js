@@ -76,7 +76,7 @@ function startScrape(){
                             return nightmare.click('input[name="acceptTerms"]')
                               .click('#submit_button')
                               .wait('.g-recaptcha')
-                              .evaluate(() => {
+                              .evaluate((anticaptcha) => {
                                 var url = document.URL;
                                 console.log(url);
                                 var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
