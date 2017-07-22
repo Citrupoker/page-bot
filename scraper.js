@@ -78,15 +78,21 @@ function startScrape(){
                                   console.log(msg)
                               }).click('input[name="acceptTerms"]')
                               .click('#submit_button')
+                              // Wait for recaptcha page
                               .wait('.g-recaptcha')
                               .evaluate(() => {
+                                // Take the url and recaptcha key from the page
                                 var url = document.URL;
                                 var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
                                 return {url, key};
                                })
                               .then(function(obj){
+                                  // Call the anticaptchaFunc function to get the solution and insert it in
+                                  // g-captcha-response textarea, and finally submit
                                   return anticaptchaFunc(obj.url, obj.key, function(solution) {
-                                    console.log('final solution: ' + solution);
+                                    console.log('captcha solution: ' + solution);
+                                    return nightmare.insert('#g-recaptcha-response', solution)
+                                      .click('#submit_button');
                                   });
                               })
                           })
@@ -130,7 +136,6 @@ function anticaptchaFunc(url, key, callback) {
                       return;
                   }
   
-                  console.log('this is solution: ' + taskSolution);
                   callback(taskSolution);
               });
           });
