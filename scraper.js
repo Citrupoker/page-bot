@@ -1,4 +1,4 @@
-var antigate_key = require('config');
+var antigate_key = require('./config.js');
 console.log(antigate_key);
 console.log('yo');
 
