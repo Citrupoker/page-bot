@@ -78,15 +78,17 @@ function startScrape(){
                               }).click('input[name="acceptTerms"]')
                               .click('#submit_button')
                               .wait('.g-recaptcha')
-                              .evaluate((anticaptchaFunc) => {
+                              .evaluate(() => {
                                 var url = document.URL;
                                 var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
-                                console.log(anticaptchaFunc(url, key));
-                               }, anticaptchaFunc)
-                              //.end()
-                              .then(function(){
-                                  console.log("Action completed");
+                                return {url, key};
+                               })
+                              .then(function(obj){
+                                  return anticaptchaFunc(obj.url, obj.key);
                               })
+                              .then(() => {
+                                console.log("Action completed");
+                              });
                           })
                       })
                   })
@@ -103,5 +105,6 @@ function anticaptchaFunc(url, key) {
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
   anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
+  console.log(anticaptcha);
   return anticaptcha;
 }
