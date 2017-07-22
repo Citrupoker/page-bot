@@ -1,6 +1,3 @@
-var anticaptcha = require('./anticaptcha/anticaptcha.js')(require('./anticaptcha/config.js'));
-console.log(anticaptcha);
-
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
 }, '');
@@ -88,7 +85,7 @@ function startScrape(){
                                 anticaptcha.setWebsiteURL(url);
                                 anticaptcha.setWebsiteKey("6LfZsQMTAAAAAMNekgRgcuRVRMiPYCh8plUMHh-m");
                                 anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
-                              }, anticaptcha)
+                              }, require('./anticaptcha/anticaptcha.js')(require('./anticaptcha/config.js')))
                               //.end()
                               .then(function(){
                                   console.log("Action completed");
