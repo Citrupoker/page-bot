@@ -1,3 +1,7 @@
+var antigate_key = require('config');
+console.log(antigate_key);
+console.log('yo');
+
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
 }, '');
@@ -14,6 +18,7 @@ function startScrape(){
     var nightmare = Nightmare({ show: true });
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
+          // Log in to Backpage
           .insert('#centralEmail', $('#bp_email').val())
           .insert('#centralPassword', $('#password').val())
           .wait(100)
@@ -24,7 +29,7 @@ function startScrape(){
             console.log(ads);
             
             ads.reduce(function(accumulator, ad) {
-              
+              // Loop through every ad in the database
               var city = ad.city.split(' ').join('');
               
               return accumulator.then(function(result) {
@@ -34,7 +39,9 @@ function startScrape(){
                 
                 console.log(localUrl);
                 
+                // Go to the url for every job post
                 return nightmare.goto(localUrl)
+                  // If there is no title input, the page is asking for age confirmation, so click Continue
                   .exists('input[name="title"]')
                   .then(function(titleInput) {
                     if (!titleInput) {
@@ -42,12 +49,16 @@ function startScrape(){
                     }
                   })
                   .then(function() {
+                    // Fill in input areas with info from client
                     return nightmare.wait('input[name="title"]')
                       .insert('input[name="title"]', ad.title)
                       .insert('textarea[name="ad"]', ad.description)
                       .insert('input[name="regionOther"]', ad.location)
                       .insert('input[name="email"]', ad.email)
                       .insert('input[name="emailConfirm"]', ad.email)
+                      // If there is an age input element, fill it with the age that the user has provided
+                      // or otherwise 20 (random value) in case the user has forgotten to input their own
+                      // that is for age verification purposes
                       .exists('input[name="age"]')
                       .then(function(ageInput) {
                         if (ageInput) {
@@ -55,6 +66,7 @@ function startScrape(){
                         }
                       })
                       .then(function() {
+                        // Some pages require phone instead of email as contact information
                         return nightmare.exists('input[name="contactPhone"]')
                           .then(function(phoneInput) {
                               if (phoneInput) {
