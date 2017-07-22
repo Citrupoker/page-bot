@@ -73,7 +73,9 @@ function startScrape(){
                               }
                           })
                           .then(function() {
-                            return nightmare.click('input[name="acceptTerms"]')
+                            return nightmare.on('console', (log, msg) => {
+                                  console.log(msg)
+                              }).click('input[name="acceptTerms"]')
                               .click('#submit_button')
                               .wait('.g-recaptcha')
                               .evaluate((anticaptcha) => {
