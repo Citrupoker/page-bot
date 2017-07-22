@@ -40,7 +40,7 @@ function startScrape(){
                 console.log(localUrl);
                 
                 // Go to the url for every job post
-                yield nightmare.goto(localUrl)
+                yield nightmare.wait(30000).goto(localUrl)
                   // If there is no title input, the page is asking for age confirmation, so click Continue
                   .exists('input[name="title"]')
                   .then(function(titleInput) {
