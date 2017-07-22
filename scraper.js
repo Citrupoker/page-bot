@@ -84,7 +84,7 @@ function startScrape(){
                                 return {url, key};
                                })
                               .then(function(obj){
-                                  return anticaptchaFunc(obj.url, obj.key);
+                                  return anticaptchaFunc(obj.url, obj.key).done(solution => solution);
                               })
                               .then((solution) => {
                                 console.log("The solution: " + solution);
