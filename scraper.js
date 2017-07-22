@@ -101,9 +101,10 @@ function startScrape(){
             }
             
             vo(run)(function(err, msg) {
-              console.dir(msg);
+              if (err) console.log(err);
+              console.log(msg);
             });
-            
+          });  
             /*ads.reduce(function(accumulator, ad) {
               // Loop through every ad in the database
               var city = ad.city.split(' ').join('');
@@ -176,7 +177,7 @@ function startScrape(){
             });
           });*/
     
-});
+}
 
 function anticaptchaFunc(url, key) {
   anticaptcha.setWebsiteURL(url);
