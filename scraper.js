@@ -102,7 +102,7 @@ function startScrape(){
 }
 
 function anticaptchaFunc(url, key) {
-  var solution;
+  var solution = '';
   
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
