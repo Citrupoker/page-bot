@@ -1,6 +1,3 @@
-var anticaptcha = require('./anticaptcha/config.js');
-console.log(anticaptcha);
-
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
 }, '');
@@ -76,7 +73,8 @@ function startScrape(){
                             return nightmare.click('input[name="acceptTerms"]')
                               .click('#submit_button')
                               .wait('.g-recaptcha')
-                              .evaluate((anticaptcha) => {
+                              .evaluate(() => {
+                                var anticaptcha = require('./anticaptcha/config.js');
                                 var url = document.URL;
                                 console.log(url);
                                 var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
