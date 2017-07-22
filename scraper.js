@@ -176,7 +176,7 @@ function startScrape(){
             });
           });*/
     
-}
+});
 
 function anticaptchaFunc(url, key) {
   anticaptcha.setWebsiteURL(url);
