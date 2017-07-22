@@ -27,9 +27,9 @@ function startScrape(){
           .then(function() {
             
             var run = function * () {
-              console.log(db('ads').__wrapped__);
-              for (var i = 0; i < db('ads').length; i++) {
-                var ad = db('ads')[i];
+              var ads = db('ads').__wrapped__;
+              for (var i = 0; i < ads.length; i++) {
+                var ad = ads[i];
                 console.log(ad);
                 var city = ad.city.split(' ').join('');
                 
