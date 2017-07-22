@@ -101,8 +101,6 @@ function startScrape(){
 }
 
 function anticaptchaFunc(url, key, callback) {
-  var solution = '';
-  
   anticaptcha.setWebsiteURL(url);
   anticaptcha.setWebsiteKey(key);
   anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
@@ -117,7 +115,6 @@ function anticaptchaFunc(url, key, callback) {
           anticaptcha.createTaskProxyless(function (err, taskId) {
               if (err) {
                   console.error(err);
-                  return;
               }
   
               console.log(taskId);
@@ -125,7 +122,6 @@ function anticaptchaFunc(url, key, callback) {
               anticaptcha.getTaskSolution(taskId, function (err, taskSolution) {
                   if (err) {
                       console.error(err);
-                      return;
                   }
   
                   console.log('this is solution: ' + taskSolution);
