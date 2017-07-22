@@ -1,4 +1,4 @@
-var anticaptcha = require('./anticaptcha/config.js');
+var anticaptcha = require('./anticaptcha/anticaptcha.js')(require('./anticaptcha/config.js'));
 console.log(anticaptcha);
 
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
