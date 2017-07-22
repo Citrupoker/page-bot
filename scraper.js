@@ -86,7 +86,7 @@ function startScrape(){
                                 anticaptcha.setWebsiteURL(url);
                                 anticaptcha.setWebsiteKey("6LfZsQMTAAAAAMNekgRgcuRVRMiPYCh8plUMHh-m");
                                 anticaptcha.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116");
-                              }, anitcaptcha)
+                              }, anticaptcha)
                               //.end()
                               .then(function(){
                                   console.log("Action completed");
