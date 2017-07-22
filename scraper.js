@@ -27,11 +27,9 @@ function startScrape(){
           .then(function() {
             
             var run = function * () {
-              var ads = db('ads');
-              console.log(ads);
-              
-              for (var i = 0; i < ads.length; i++) {
-                var ad = ads[i];
+              for (var i = 0; i < db('ads').length; i++) {
+                var ad = db('ads')[i];
+                console.log(ad);
                 var city = ad.city.split(' ').join('');
                 
                 var localUrl = 'http://posting.' + city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
