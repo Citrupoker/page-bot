@@ -92,7 +92,8 @@ function startScrape(){
                                   return anticaptchaFunc(obj.url, obj.key, function(solution) {
                                     console.log('captcha solution: ' + solution);
                                     return nightmare.insert('#g-recaptcha-response', solution)
-                                      .click('#submit_button');
+                                      .click('#submit_button')
+                                      .wait(30000);
                                   });
                               })
                           })
