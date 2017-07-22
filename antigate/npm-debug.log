@@ -1,0 +1,100 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/ubuntu/.nvm/versions/node/v4.6.1/bin/node',
+1 verbose cli   '/home/ubuntu/.nvm/versions/node/v4.6.1/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'anticaptcha' ]
+2 info using npm@2.15.9
+3 info using node@v4.6.1
+4 verbose install initial load of /home/ubuntu/workspace/package.json
+5 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/node_modules/antigate/package.json
+6 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/node_modules/dotenv/package.json
+7 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/node_modules/request/package.json
+8 verbose installManyTop reading scoped package data from /home/ubuntu/workspace/node_modules/vo/package.json
+9 info package.json vo@4.0.2 No license field.
+10 verbose readDependencies loading dependencies from /home/ubuntu/workspace/package.json
+11 silly cache add args [ 'anticaptcha', null ]
+12 verbose cache add spec anticaptcha
+13 silly cache add parsed spec Result {
+13 silly cache add   raw: 'anticaptcha',
+13 silly cache add   scope: null,
+13 silly cache add   name: 'anticaptcha',
+13 silly cache add   rawSpec: '',
+13 silly cache add   spec: 'latest',
+13 silly cache add   type: 'tag' }
+14 silly addNamed anticaptcha@latest
+15 verbose addNamed "latest" is being treated as a dist-tag for anticaptcha
+16 info addNameTag [ 'anticaptcha', 'latest' ]
+17 silly mapToRegistry name anticaptcha
+18 silly mapToRegistry using default registry
+19 silly mapToRegistry registry https://registry.npmjs.org/
+20 silly mapToRegistry data Result {
+20 silly mapToRegistry   raw: 'anticaptcha',
+20 silly mapToRegistry   scope: null,
+20 silly mapToRegistry   name: 'anticaptcha',
+20 silly mapToRegistry   rawSpec: '',
+20 silly mapToRegistry   spec: 'latest',
+20 silly mapToRegistry   type: 'tag' }
+21 silly mapToRegistry uri https://registry.npmjs.org/anticaptcha
+22 verbose addNameTag registry:https://registry.npmjs.org/anticaptcha not in flight; fetching
+23 verbose request uri https://registry.npmjs.org/anticaptcha
+24 verbose request no auth needed
+25 info attempt registry request try #1 at 11:55:17 AM
+26 verbose request id 0a2f4d852296c3ca
+27 http request GET https://registry.npmjs.org/anticaptcha
+28 http 404 https://registry.npmjs.org/anticaptcha
+29 verbose headers { 'content-type': 'application/json',
+29 verbose headers   'cache-control': 'max-age=0',
+29 verbose headers   'content-length': '2',
+29 verbose headers   'accept-ranges': 'bytes',
+29 verbose headers   date: 'Sat, 22 Jul 2017 11:55:18 GMT',
+29 verbose headers   via: '1.1 varnish',
+29 verbose headers   age: '0',
+29 verbose headers   connection: 'keep-alive',
+29 verbose headers   'x-served-by': 'cache-lcy1141-LCY',
+29 verbose headers   'x-cache': 'MISS',
+29 verbose headers   'x-cache-hits': '0',
+29 verbose headers   'x-timer': 'S1500724518.233741,VS0,VE380',
+29 verbose headers   vary: 'Accept-Encoding' }
+30 silly get cb [ 404,
+30 silly get   { 'content-type': 'application/json',
+30 silly get     'cache-control': 'max-age=0',
+30 silly get     'content-length': '2',
+30 silly get     'accept-ranges': 'bytes',
+30 silly get     date: 'Sat, 22 Jul 2017 11:55:18 GMT',
+30 silly get     via: '1.1 varnish',
+30 silly get     age: '0',
+30 silly get     connection: 'keep-alive',
+30 silly get     'x-served-by': 'cache-lcy1141-LCY',
+30 silly get     'x-cache': 'MISS',
+30 silly get     'x-cache-hits': '0',
+30 silly get     'x-timer': 'S1500724518.233741,VS0,VE380',
+30 silly get     vary: 'Accept-Encoding' } ]
+31 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/anticaptcha
+31 verbose stack     at makeError (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+31 verbose stack     at CachingRegistryClient.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:242:14)
+31 verbose stack     at Request._callback (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+31 verbose stack     at Request.self.callback (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/request/request.js:200:22)
+31 verbose stack     at emitTwo (events.js:87:13)
+31 verbose stack     at Request.emit (events.js:172:7)
+31 verbose stack     at Request.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/request/request.js:1067:10)
+31 verbose stack     at emitOne (events.js:82:20)
+31 verbose stack     at Request.emit (events.js:169:7)
+31 verbose stack     at IncomingMessage.<anonymous> (/home/ubuntu/.nvm/versions/node/v4.6.1/lib/node_modules/npm/node_modules/request/request.js:988:12)
+32 verbose statusCode 404
+33 verbose pkgid anticaptcha
+34 verbose cwd /home/ubuntu/workspace/antigate
+35 error Linux 4.9.17-c9
+36 error argv "/home/ubuntu/.nvm/versions/node/v4.6.1/bin/node" "/home/ubuntu/.nvm/versions/node/v4.6.1/bin/npm" "install" "--save" "anticaptcha"
+37 error node v4.6.1
+38 error npm  v2.15.9
+39 error code E404
+40 error 404 Registry returned 404 for GET on https://registry.npmjs.org/anticaptcha
+40 error 404
+40 error 404 'anticaptcha' is not in the npm registry.
+40 error 404 You should bug the author to publish it (or use the name yourself!)
+40 error 404 It was specified as a dependency of 'electron-quick-start'
+40 error 404
+40 error 404 Note that you can also install from a
+40 error 404 tarball, folder, http url, or git url.
+41 verbose exit [ 1, true ]
