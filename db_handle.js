@@ -1,17 +1,12 @@
 var Datastore = require('nedb');
 var db = new Datastore({ filename: 'data/ads.db', autoload: true });
-var ads = [];
-db.find({}, function(err, adsTemp) {
- console.log(adsTemp);
+db.find({}, function(err, ads) {
  if (err) throw err; 
- ads = adsTemp;
-});
-
-console.log(ads);
-
+ 
  for(var x = 0; x < ads.length; x++){
      $('#ads').append(`<li id="${ads[x].split(' ').join('_')}">` + ads[x] + ` <button class="text-danger" id="delete" onclick="deleteAd(${ads[x].split(' ').join('_')})">x</button></li>`)
  }
+});
 
  function saveData(){
      var category = $('#category').val()
