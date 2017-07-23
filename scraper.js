@@ -25,7 +25,11 @@ function startScrape(){
           .click('.signIn')
           .then(function() {
             
-            var ads = db('ads').__wrapped__;
+            var ads = [];
+            db.find({}, function(err, ads) {
+             if (err) throw err; 
+             ads = ads;
+            });
             
             function addAd(index) {
               var ad = ads[index];

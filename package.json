@@ -1,18 +1,16 @@
 {
-  "name": "electron-quick-start",
+  "name": "backpage-bot",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Bot application that posts ads to Backpage",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/remoteapprentice/backpage-bot",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "backpage",
+    "bot"
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
@@ -22,6 +20,7 @@
   "dependencies": {
     "antigate": "0.0.1",
     "dotenv": "^4.0.0",
+    "nedb": "^1.8.0",
     "nightmare": "2.7.0",
     "node-flat-db": "^0.2.1",
     "request": "^2.81.0",
