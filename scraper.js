@@ -15,7 +15,6 @@ function startScrape(){
     console.log('Logging in to backpage...')
     var Nightmare = require('nightmare');
     var nightmare = Nightmare({ show: true });
-    var vo = require('vo');
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
           // Log in to Backpage
@@ -26,87 +25,89 @@ function startScrape(){
           .click('.signIn')
           .then(function() {
             
-            var run = function * () {
-              var ads = db('ads').__wrapped__;
-              for (var i = 0; i < ads.length; i++) {
-                var ad = ads[i];
-                console.log(ad);
-                var city = ad.city.split(' ').join('');
-                
-                var localUrl = 'http://posting.' + city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
-                city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
-                postings[ad.category].category + '&serverName=' + city + '.backpage.com&superRegion=' + ad.city.split(' ').join('%20');
-                
-                console.log(localUrl);
-                
-                // Go to the url for every job post
-                yield nightmare.goto(localUrl)
-                  // If there is no title input, the page is asking for age confirmation, so click Continue
-                  .exists('input[name="title"]')
-                  .then(function(titleInput) {
-                    if (!titleInput) {
-                      return nightmare.click('input[value="Continue"]');
-                    }
-                  })
-                  .then(function() {
-                    // Fill in input areas with info from client
-                    return nightmare.wait('input[name="title"]')
-                      .insert('input[name="title"]', ad.title)
-                      .insert('textarea[name="ad"]', ad.description)
-                      .insert('input[name="regionOther"]', ad.location)
-                      .insert('input[name="email"]', ad.email)
-                      .insert('input[name="emailConfirm"]', ad.email)
-                      // If there is an age input element, fill it with the age that the user has provided
-                      // or otherwise 20 (random value) in case the user has forgotten to input their own
-                      // that is for age verification purposes
-                      .exists('input[name="age"]')
-                      .then(function(ageInput) {
-                        if (ageInput) {
-                          return nightmare.insert('input[name="age"]', ad.age || 20);
-                        }
-                      })
-                      .then(function() {
-                        // Some pages require phone instead of email as contact information
-                        return nightmare.exists('input[name="contactPhone"]')
-                          .then(function(phoneInput) {
-                              if (phoneInput) {
-                                return nightmare.insert('input[name="contactPhone"]', ad.phone);
-                              }
-                          })
-                          .then(function() {
-                            return nightmare.on('console', (log, msg) => {
-                                  console.log(msg)
-                              }).click('input[name="acceptTerms"]')
-                              .click('#submit_button')
-                              // Wait for recaptcha page
-                              .wait('.g-recaptcha')
-                              .evaluate(() => {
-                                // Take the url and recaptcha key from the page
-                                var url = document.URL;
-                                var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
-                                return {url, key};
-                               })
-                              .then(function(obj){
-                                  // Call the anticaptchaFunc function to get the solution and insert it in
-                                  // g-captcha-response textarea, and finally submit
-                                  return anticaptchaFunc(obj.url, obj.key, function(solution) {
-                                    console.log('captcha solution: ' + solution);
-                                    return nightmare.insert('#g-recaptcha-response', solution)
-                                      .click('#submit_button');
-                                  });
-                              })
-                          })
-                      })
-                  })
-              }
+            var ads = db('ads').__wrapped__;
+            
+            function addAd(index) {
+              var ad = ads[index];
+              console.log(ad);
+              var city = ad.city.split(' ').join('');
               
-              return "All done";
+              var localUrl = 'http://posting.' + city + '.backpage.com/online/classifieds/PostAdPPI.html/posting.' + 
+              city +'.backpage.com/?section=' + postings[ad.category].section + '&category=' + 
+              postings[ad.category].category + '&serverName=' + city + '.backpage.com&superRegion=' + ad.city.split(' ').join('%20');
+              
+              console.log(localUrl);
+              
+              // Go to the url for every job post
+              return nightmare.goto(localUrl)
+                // If there is no title input, the page is asking for age confirmation, so click Continue
+                .exists('input[name="title"]')
+                .then(function(titleInput) {
+                  if (!titleInput) {
+                    return nightmare.click('input[value="Continue"]');
+                  }
+                })
+                .then(function() {
+                  // Fill in input areas with info from client
+                  return nightmare.wait('input[name="title"]')
+                    .insert('input[name="title"]', ad.title)
+                    .insert('textarea[name="ad"]', ad.description)
+                    .insert('input[name="regionOther"]', ad.location)
+                    .insert('input[name="email"]', ad.email)
+                    .insert('input[name="emailConfirm"]', ad.email)
+                    // If there is an age input element, fill it with the age that the user has provided
+                    // or otherwise 20 (random value) in case the user has forgotten to input their own
+                    // that is for age verification purposes
+                    .exists('input[name="age"]')
+                    .then(function(ageInput) {
+                      if (ageInput) {
+                        return nightmare.insert('input[name="age"]', ad.age || 20);
+                      }
+                    })
+                    .then(function() {
+                      // Some pages require phone instead of email as contact information
+                      return nightmare.exists('input[name="contactPhone"]')
+                        .then(function(phoneInput) {
+                            if (phoneInput) {
+                              return nightmare.insert('input[name="contactPhone"]', ad.phone);
+                            }
+                        })
+                        .then(function() {
+                          return nightmare.on('console', (log, msg) => {
+                                console.log(msg)
+                            }).click('input[name="acceptTerms"]')
+                            .click('#submit_button')
+                            // Wait for recaptcha page
+                            .wait('.g-recaptcha')
+                            .evaluate(() => {
+                              // Take the url and recaptcha key from the page
+                              var url = document.URL;
+                              var key = document.querySelector('.g-recaptcha').getAttribute('data-sitekey');
+                              return {url, key};
+                             })
+                            .then(function(obj){
+                                // Call the anticaptchaFunc function (takes 30 secs to respond) to get the solution 
+                                // Insert it in g-captcha-response textarea, and finally submit
+                                return anticaptchaFunc(obj.url, obj.key, function(solution) {
+                                  console.log('captcha solution: ' + solution);
+                                  return nightmare.insert('#g-recaptcha-response', solution)
+                                    .click('#submit_button')
+                                    .wait(300)
+                                    .then(function() {
+                                      if ((index + 1) < ads.length) {
+                                        return addAd(index + 1);
+                                      } else {
+                                        return nightmare.end();
+                                      }
+                                    });
+                                });
+                            })
+                        })
+                    })
+                })
             }
             
-            return vo(run)(function(err, msg) {
-              if (err) console.log(err);
-              console.log(msg);
-            });
+            return addAd(0);
           });  
 }
 
