@@ -92,7 +92,7 @@ function startScrape(){
                                   console.log('captcha solution: ' + solution);
                                   return nightmare.insert('#g-recaptcha-response', solution)
                                     .click('#submit_button')
-                                    .wait('body')
+                                    .wait(3000)
                                     .then(function() {
                                       if ((index + 1) < ads.length) {
                                         return addAd(index + 1);
