@@ -25,15 +25,7 @@ function startScrape(){
           .click('.signIn')
           .then(function() {
             
-            var ads = [];
-            db.find({}, function(err, ads) {
-             if (err) throw err; 
-             ads = ads;
-            });
-            
-            console.log(ads);
-            
-            function addAd(index) {
+            function addAd(index, ads) {
               var ad = ads[index];
               console.log(ad);
               var city = ad.city.split(' ').join('');
@@ -115,7 +107,10 @@ function startScrape(){
                 })
             }
             
-            return addAd(0);
+            db.find({}, function(err, ads) {
+             if (err) throw err; 
+             return addAd(0, ads);
+            });
           });  
 }
 
