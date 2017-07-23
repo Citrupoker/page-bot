@@ -4,7 +4,7 @@ db.find({}, function(err, ads) {
  if (err) throw err; 
  
  for(var x = 0; x < ads.length; x++){
-     $('#ads').append(`<li id="${ads[x].split(' ').join('_')}">` + ads[x] + ` <button class="text-danger" id="delete" onclick="deleteAd(${ads[x].split(' ').join('_')})">x</button></li>`)
+     $('#ads').append(`<li id="${ads[x].title.split(' ').join('_')}">` + ads[x].title + ` <button class="text-danger" id="delete" onclick="deleteAd(${ads[x].title.split(' ').join('_')})">x</button></li>`)
  }
 });
 
