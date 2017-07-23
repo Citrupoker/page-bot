@@ -90,17 +90,23 @@ function startScrape(){
                                 // Insert it in g-captcha-response textarea, and finally submit
                                 return anticaptchaFunc(obj.url, obj.key, function(solution) {
                                   console.log('captcha solution: ' + solution);
-                                  return nightmare.insert('#g-recaptcha-response', solution)
-                                    .click('#submit_button')
-                                    .wait(3000)
-                                    .then(function() {
-                                      if ((index + 1) < ads.length) {
-                                        return addAd(index + 1);
-                                      } else {
-                                        console.log('All done');
-                                        return nightmare.end();
-                                      }
-                                    });
+                                  return nightmare.evaluate(() => {
+                                    var textarea = document.querySelector('#g-recaptcha-response');
+                                    textarea.insertRule('{display: block}');
+                                  })
+                                  .then(function() {
+                                    return nightmare.insert('#g-recaptcha-response', solution)
+                                      .click('#submit_button')
+                                      .wait(3000)
+                                      .then(function() {
+                                        if ((index + 1) < ads.length) {
+                                          return addAd(index + 1);
+                                        } else {
+                                          console.log('All done');
+                                          return nightmare.end();
+                                        }
+                                      });
+                                  });
                                 });
                             })
                         })
