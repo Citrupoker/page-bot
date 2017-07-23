@@ -78,7 +78,7 @@ function startScrape(){
                             }).click('input[name="acceptTerms"]')
                             .click('#submit_button')
                             // Wait for recaptcha page
-                            .wait('#g-recaptcha-response'')
+                            .wait('#g-recaptcha-response')
                             .evaluate(() => {
                               // Take the url and recaptcha key from the page
                               var url = document.URL;
