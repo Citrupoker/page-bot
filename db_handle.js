@@ -40,6 +40,7 @@ db.find({}, function(err, ads) {
 
  }
  function deleteAd(title){
+  console.log(title);
     db.remove({title: title}, function(err) {
      if (err) throw err;
      console.log('Deleted ' + title.split('_').join(' '));
