@@ -31,6 +31,8 @@ function startScrape(){
              ads = ads;
             });
             
+            console.log(ads);
+            
             function addAd(index) {
               var ad = ads[index];
               console.log(ad);
