@@ -92,11 +92,12 @@ function startScrape(){
                                   console.log('captcha solution: ' + solution);
                                   return nightmare.insert('#g-recaptcha-response', solution)
                                     .click('#submit_button')
-                                    .wait(300)
+                                    .wait('body')
                                     .then(function() {
                                       if ((index + 1) < ads.length) {
                                         return addAd(index + 1);
                                       } else {
+                                        console.log('All done');
                                         return nightmare.end();
                                       }
                                     });
