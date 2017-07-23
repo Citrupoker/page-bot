@@ -2,6 +2,7 @@ var Datastore = require('nedb');
 var db = new Datastore({ filename: 'data/ads.db', autoload: true });
 var ads = [];
 db.find({}, function(err, ads) {
+ console.log(ads);
  if (err) throw err; 
  ads = ads;
 });
