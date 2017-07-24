@@ -16,7 +16,7 @@ function startScrape(){
     var Nightmare = require('nightmare');
     var nightmare = Nightmare({ show: true });
     
-    $('.notification').innerHTML = 'Your ads are being posted. Please wait!';
+    $('.notification').html('Your ads are being posted. Please wait!');
     $('.scrapeBtn').prop('disabled', true);
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
@@ -101,7 +101,7 @@ function startScrape(){
                                       } else {
                                         console.log('All done');
                                         $('.scrapeBtn').prop('disabled', false);
-                                        $('.notification').innerHTML = 'Your ads have been posted successfully.';
+                                        $('.notification').html('Your ads have been posted successfully.');
                                         ads.forEach((ad) => deleteAd(ad.title));
                                         return nightmare.end();
                                       }
