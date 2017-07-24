@@ -2,9 +2,9 @@ var Datastore = require('nedb');
 var db = new Datastore({ filename: 'data/ads.db', autoload: true });
 db.find({}, function(err, ads) {
  if (err) throw err; 
+ console.log(ads);
  
  for(var x = 0; x < ads.length; x++){
-    console.log(ads[x].title);
     $('#ads').append('<li id="' + ads[x].title.split(' ').join('_') + '">' + ads[x].title + ' <button class="text-danger" id="delete" onclick="deleteAd(' + ads[x].title.split(' ').join('_') + ')">x</button></li>');
  }
 });
@@ -28,7 +28,7 @@ db.find({}, function(err, ads) {
          db.insert(ad, function (err, newAd) {   // Callback is optional 
            if (err) throw err;
            console.log('Added new ad: ' + newAd.title);
-           $('#ads').append('<li id="' + title.split(' ').join('_') + '">' + title + ' <button class="text-danger" id="delete" onclick="deleteAd(' + title.split(' ').join('_') + ')">x</button></li>');
+           $('#ads').append('<li id="' + newAd.title.split(' ').join('_') + '">' + newAd.title + ' <button class="text-danger" id="delete" onclick="deleteAd(' + newAd.title.split(' ').join('_') + ')">x</button></li>');
          });
          
          $('#title').val('')
