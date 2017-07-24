@@ -96,8 +96,6 @@ function startScrape(){
                                     .click('#submit_button')
                                     .wait(3000)
                                     .then(function() {
-                                      console.log((index+1));
-                                      console.log(ads);
                                       if ((index + 1) < ads.length) {
                                         return addAd((index + 1), ads);
                                       } else {
