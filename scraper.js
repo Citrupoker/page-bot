@@ -97,11 +97,12 @@ function startScrape(){
                                     .wait(3000)
                                     .then(function() {
                                       if ((index + 1) < ads.length) {
-                                        return addAd(index + 1);
+                                        return addAd((index + 1), ads);
                                       } else {
                                         console.log('All done');
                                         $('.scrapeBtn').prop('disabled', false);
                                         $('.notification').html('Your ads have been posted successfully.');
+                                        ads.forEach((ad) => deleteAd(ad.title));
                                         return nightmare.end();
                                       }
                                     });
