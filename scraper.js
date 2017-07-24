@@ -15,6 +15,9 @@ function startScrape(){
     console.log('Logging in to backpage...')
     var Nightmare = require('nightmare');
     var nightmare = Nightmare({ show: true });
+    
+    $('.notification').innerHTML = 'Your ads are being posted. Please wait!';
+    $('.scrapeBtn').prop('disabled', true);
 
     nightmare.goto('https://my.backpage.com/classifieds/central/index')
           // Log in to Backpage
@@ -97,6 +100,9 @@ function startScrape(){
                                         return addAd(index + 1);
                                       } else {
                                         console.log('All done');
+                                        $('.scrapeBtn').prop('disabled', false);
+                                        $('.notification').innerHTML = 'Your ads have been posted successfully.';
+                                        ads.forEach((ad) => deleteAd(ad.title));
                                         return nightmare.end();
                                       }
                                     });
