@@ -1,5 +1,4 @@
 var anticaptcha = require('./anticaptcha/config.js');
-console.log(anticaptcha);
 
 var categoryOptions = Object.keys(postings).sort().reduce((str, key) => {
   return str + '<option value=' + key + '>' + postings[key].original + '</option>';
@@ -49,7 +48,7 @@ function startScrape(){
                   // Fill in input areas with info from client
                   return nightmare.wait('input[name="title"]')
                     .insert('input[name="title"]', ad.title)
-                    .insert('textarea[name="ad"]', ad.description)
+                    .insert('textarea[name="ad"]', ad.desc)
                     .insert('input[name="regionOther"]', ad.location)
                     .insert('input[name="email"]', ad.email)
                     .insert('input[name="emailConfirm"]', ad.email)

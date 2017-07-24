@@ -2,8 +2,7 @@ var Datastore = require('nedb');
 var db = new Datastore({ filename: 'data/ads.db', autoload: true });
 db.find({}, function(err, ads) {
  if (err) throw err; 
- console.log(ads);
- 
+
  for(var x = 0; x < ads.length; x++){
     $('#ads').append('<li id="' + ads[x].title.split(' ').join('_') + '">' + ads[x].title + ' <button class="text-danger" id="delete" onclick="deleteAd(\'' + ads[x].title.split(' ').join('_') + '\')">x</button></li>');
  }
@@ -41,7 +40,6 @@ db.find({}, function(err, ads) {
 
  }
  function deleteAd(title){
-  console.log(title);
     db.remove({title: title}, function(err) {
      if (err) throw err;
      console.log('Deleted ' + title.split('_').join(' '));
