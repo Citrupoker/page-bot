@@ -102,7 +102,6 @@ function startScrape(){
                                         console.log('All done');
                                         $('.scrapeBtn').prop('disabled', false);
                                         $('.notification').html('Your ads have been posted successfully.');
-                                        ads.forEach((ad) => deleteAd(ad.title));
                                         return nightmare.end();
                                       }
                                     });
